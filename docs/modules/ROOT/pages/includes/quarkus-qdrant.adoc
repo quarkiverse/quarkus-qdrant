@@ -1,0 +1,263 @@
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[.header-title]##Configuration property##
+h|Type
+h|Default
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-health-enabled]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-health-enabled[`+++quarkus.qdrant.health.enabled+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.health.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether a health check is published in case the smallrye-health extension is present.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_HEALTH_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_HEALTH_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-enabled]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-enabled[`+++quarkus.qdrant.devservices.enabled+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.enabled+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether Dev Services for Qdrant are enabled or not.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-qdrant-image-name]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-qdrant-image-name[`+++quarkus.qdrant.devservices.qdrant-image-name+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.qdrant-image-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Container image for Qdrant.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_QDRANT_IMAGE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_QDRANT_IMAGE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++docker.io/qdrant/qdrant:v1.16-unprivileged+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-port]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-port[`+++quarkus.qdrant.devservices.port+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.port+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Optional fixed port the Qdrant dev service will listen to. If not defined, the port will be chosen randomly.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_PORT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_PORT+++`
+endif::add-copy-button-to-env-var[]
+--
+|int
+|
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-shared]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-shared[`+++quarkus.qdrant.devservices.shared+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.shared+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Indicates if the Dev Service containers managed by Quarkus for Qdrant are shared.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_SHARED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_SHARED+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++true+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-service-name]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-service-name[`+++quarkus.qdrant.devservices.service-name+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.service-name+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Service label to apply to created Dev Services containers.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_SERVICE_NAME+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_SERVICE_NAME+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++qdrant+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-host]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-host[`+++quarkus.qdrant.host+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.host+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The hostname of the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_HOST+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_HOST+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++localhost+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-port]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-port[`+++quarkus.qdrant.port+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.port+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The REST port of the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_PORT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_PORT+++`
+endif::add-copy-button-to-env-var[]
+--
+|int
+|`+++6333+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-api-key]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-api-key[`+++quarkus.qdrant.api-key+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.api-key+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The API key to authenticate with.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_API_KEY+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_API_KEY+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a| [[quarkus-qdrant_quarkus-qdrant-use-tls]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-use-tls[`+++quarkus.qdrant.use-tls+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.use-tls+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+Whether to use TLS (HTTPS).
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_USE_TLS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_USE_TLS+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++false+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-vector-size]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-vector-size[`+++quarkus.qdrant.devservices.collections."collections".vector-size+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.collections."collections".vector-size+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The size of the vectors in this collection.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_COLLECTIONS__COLLECTIONS__VECTOR_SIZE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_COLLECTIONS__COLLECTIONS__VECTOR_SIZE+++`
+endif::add-copy-button-to-env-var[]
+--
+|int
+|`+++384+++`
+
+a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-distance]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-distance[`+++quarkus.qdrant.devservices.collections."collections".distance+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.devservices.collections."collections".distance+++[]
+endif::add-copy-button-to-config-props[]
+
+
+[.description]
+--
+The distance metric to use for this collection. Supported values: Cosine, Euclid, Dot, Manhattan.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_DEVSERVICES_COLLECTIONS__COLLECTIONS__DISTANCE+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_COLLECTIONS__COLLECTIONS__DISTANCE+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++Cosine+++`
+
+|===
+

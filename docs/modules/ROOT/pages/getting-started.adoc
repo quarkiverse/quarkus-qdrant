@@ -1,0 +1,121 @@
+= Getting Started
+
+include::./includes/attributes.adoc[]
+
+This guide walks you through building a simple document indexing and search application with Quarkus Qdrant.
+
+== Installation
+
+Add the extension to your project:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.qdrant</groupId>
+    <artifactId>quarkus-qdrant</artifactId>
+    <version>{project-version}</version>
+</dependency>
+----
+
+== The Document POJO
+
+First, create a `Document` class:
+
+[source,java]
+----
+package org.acme.qdrant;
+
+public class Document {
+
+    public String id;
+    public String text;
+    public String source;
+}
+----
+
+Nothing fancy. Just a plain Java object with an ID, some text, and a source field.
+
+== The Document Service
+
+Now create a `DocumentService` that uses `QdrantClient` to index, search, and delete documents:
+
+[source,java]
+----
+package org.acme.qdrant;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import io.quarkiverse.qdrant.runtime.QdrantClient;
+import io.quarkiverse.qdrant.runtime.model.PointStruct;
+import io.quarkiverse.qdrant.runtime.model.ScoredPoint;
+
+@ApplicationScoped
+public class DocumentService {
+
+    private static final String COLLECTION = "documents";
+
+    @Inject
+    QdrantClient qdrant; // <1>
+
+    public String index(Document document) {
+        if (document.id == null) {
+            document.id = UUID.randomUUID().toString();
+        }
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("text", document.text);
+        payload.put("source", document.source);
+
+        List<Float> vector = computeVector(document.text); // <2>
+
+        PointStruct point = new PointStruct(document.id, vector, payload);
+        qdrant.upsert(COLLECTION).point(point).execute(); // <3>
+
+        return document.id;
+    }
+
+    public List<Document> search(float[] queryVector) {
+        List<ScoredPoint> results = qdrant.search(COLLECTION) // <4>
+                .vector(queryVector)
+                .limit(10)
+                .withPayload(true)
+                .withVector(false)
+                .execute();
+
+        List<Document> documents = new ArrayList<>();
+        if (results != null) {
+            for (ScoredPoint point : results) {
+                Document doc = new Document();
+                doc.id = point.getId();
+                if (point.getPayload() != null) {
+                    doc.text = (String) point.getPayload().get("text");
+                    doc.source = (String) point.getPayload().get("source");
+                }
+                documents.add(doc);
+            }
+        }
+        return documents;
+    }
+
+    public void delete(String id) {
+        qdrant.delete(COLLECTION).byIds(List.of(id)).execute(); // <5>
+    }
+
+    List<Float> computeVector(String text) {
+        // Use your embedding model here
+    }
+}
+----
+<1> Inject `QdrantClient`.
+<2> Compute a vector from the text using your embedding model.
+<3> Upsert a point into the collection.
+<4> Search with a vector. Returns a list of `ScoredPoint` with id, score, and payload.
+<5> Delete points by their IDs.
+

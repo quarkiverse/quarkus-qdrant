@@ -1,0 +1,132 @@
+= Quarkus Qdrant
+
+include::./includes/attributes.adoc[]
+
+A Quarkus extension for https://qdrant.tech/[Qdrant], the open-source vector database. It gives you a `QdrantClient` to store, search, and manage vectors using the Qdrant REST API.
+
+== At a Glance
+
+[source,java]
+----
+@Inject
+QdrantClient qdrant;
+
+// Create a collection
+qdrant.createCollection("docs").vectorSize(384).distance("Cosine").execute();
+
+// Index a point
+qdrant.upsert("docs").point(new PointStruct(id, vector, payload)).execute();
+
+// Search
+List<ScoredPoint> results = qdrant.search("docs").vector(queryVec).limit(10).execute();
+----
+
+That's it. No gRPC stubs, no channel management, no heavy dependencies.
+
+== Why Quarkus Qdrant?
+
+=== REST instead of gRPC
+
+The official Qdrant Java client uses gRPC, which brings a heavy dependency chain. This extension uses the Qdrant REST API through the Quarkus REST client instead. Fewer dependencies, faster builds, and native image support without extra configuration.
+
+=== A real Quarkus extension
+
+This is not a wrapper around an upstream library. It follows the Quarkus extension model: CDI injection, build-time optimization, health checks, and configuration via `application.properties`. It also allows extensions like `quarkus-langchain4j` to depend on a proper Quarkus extension rather than pulling in the gRPC client directly.
+
+=== Fluent API
+
+Every operation uses a builder pattern: `qdrant.search("collection").vector(vec).limit(10).execute()`. Readable and hard to misuse.
+
+=== Dev Services
+
+In dev and test mode, a Qdrant container starts automatically. No local install needed.
+
+== Dev Services
+
+In dev and test mode, the extension starts a Qdrant container automatically. No configuration needed.
+
+You can pre-create collections at startup:
+
+[source,properties]
+----
+quarkus.qdrant.devservices.collections.documents.vector-size=384
+quarkus.qdrant.devservices.collections.documents.distance=Cosine
+quarkus.qdrant.devservices.collections.products.vector-size=128
+quarkus.qdrant.devservices.collections.products.distance=Euclid
+----
+
+You can fix the port if you need a stable URL:
+
+[source,properties]
+----
+quarkus.qdrant.devservices.port=6333
+----
+
+Dev Services is disabled automatically when `quarkus.qdrant.host` is explicitly set.
+
+== Configuring for production
+
+Point to your Qdrant instance:
+
+[source,properties]
+----
+quarkus.qdrant.host=qdrant.example.com
+quarkus.qdrant.port=6333
+----
+
+With API key and TLS:
+
+[source,properties]
+----
+quarkus.qdrant.host=qdrant.example.com
+quarkus.qdrant.port=6333
+quarkus.qdrant.api-key=your-api-key
+quarkus.qdrant.use-tls=true
+----
+
+== Health check
+
+If you have the `quarkus-smallrye-health` extension, a readiness check is registered automatically.
+
+To disable it:
+
+[source,properties]
+----
+quarkus.qdrant.health.enabled=false
+----
+
+== QdrantClient API reference
+
+[cols="1,1"]
+|===
+|Operation |Example
+
+|Create a collection
+|`qdrant.createCollection("name").vectorSize(384).distance("Cosine").execute()`
+
+|Upsert a single point
+|`qdrant.upsert("name").point(point).execute()`
+
+|Upsert multiple points
+|`qdrant.upsert("name").points(pointList).execute()`
+
+|Search
+|`qdrant.search("name").vector(vec).limit(10).execute()`
+
+|Delete by IDs
+|`qdrant.delete("name").byIds(idList).execute()`
+
+|Delete by filter
+|`qdrant.delete("name").byFilter(filterMap).execute()`
+
+|List collections
+|`qdrant.listCollections()`
+
+|Delete a collection
+|`qdrant.deleteCollection("name")`
+|===
+
+== What's Next
+
+* xref:getting-started.adoc[Getting Started] — build a document search service step by step
+* xref:configuration.adoc[Configuration Reference]
