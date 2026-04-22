@@ -1,9 +1,14 @@
 name: Qdrant
-#description: Do something useful.
+description: Provides a client for the Qdrant vector database
 metadata:
-#  keywords:
-#    - qdrant
-#  guide: https://docs.quarkiverse.io/quarkus-qdrant/dev/ # To create and publish this guide, see https://github.com/quarkiverse/quarkiverse/wiki#documenting-your-extension
-#  categories:
-#    - "miscellaneous"
-#  status: "preview"
+  keywords:
+    - qdrant
+    - vector-database
+    - vector-search
+    - embeddings
+  guide: "https://docs.quarkiverse.io/quarkus-qdrant/dev/index.html"
+  categories:
+    - "data"
+  status: "preview"
+  config:
+    - "quarkus.qdrant."
