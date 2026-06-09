@@ -1,16 +1,32 @@
 # Maven build output
 target/
 
+# Maven release plugin
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
 # IDE
 .idea/
 *.iml
 .project
 .classpath
 .settings/
+.factorypath
 .vscode/
+nb-configuration.xml
 
 # Claude Code
 CLAUDE.md
 
 # OS
 .DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej

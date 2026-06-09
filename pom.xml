@@ -22,6 +22,7 @@
         <connection>scm:git:git@github.com:quarkiverse/quarkus-qdrant.git</connection>
         <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-qdrant.git</developerConnection>
         <url>https://github.com/quarkiverse/quarkus-qdrant</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
