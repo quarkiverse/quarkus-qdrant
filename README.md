@@ -34,3 +34,7 @@ In dev mode, a Qdrant container starts automatically via Dev Services.
 
 The documentation for this extension is available at https://docs.quarkiverse.io/quarkus-qdrant/dev/index.html.
 
+## Contributing
+
+Contributions are welcome. Check the [Contributing Guide](CONTRIBUTING.md) to get started.
+
