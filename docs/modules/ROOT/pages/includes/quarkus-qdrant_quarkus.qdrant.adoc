@@ -133,90 +133,6 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++qdrant+++`
 
-a| [[quarkus-qdrant_quarkus-qdrant-host]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-host[`+++quarkus.qdrant.host+++`]##
-ifdef::add-copy-button-to-config-props[]
-config_property_copy_button:+++quarkus.qdrant.host+++[]
-endif::add-copy-button-to-config-props[]
-
-
-[.description]
---
-The hostname of the Qdrant server.
-
-
-ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_HOST+++[]
-endif::add-copy-button-to-env-var[]
-ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_QDRANT_HOST+++`
-endif::add-copy-button-to-env-var[]
---
-|string
-|`+++localhost+++`
-
-a| [[quarkus-qdrant_quarkus-qdrant-port]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-port[`+++quarkus.qdrant.port+++`]##
-ifdef::add-copy-button-to-config-props[]
-config_property_copy_button:+++quarkus.qdrant.port+++[]
-endif::add-copy-button-to-config-props[]
-
-
-[.description]
---
-The REST port of the Qdrant server.
-
-
-ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_PORT+++[]
-endif::add-copy-button-to-env-var[]
-ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_QDRANT_PORT+++`
-endif::add-copy-button-to-env-var[]
---
-|int
-|`+++6333+++`
-
-a| [[quarkus-qdrant_quarkus-qdrant-api-key]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-api-key[`+++quarkus.qdrant.api-key+++`]##
-ifdef::add-copy-button-to-config-props[]
-config_property_copy_button:+++quarkus.qdrant.api-key+++[]
-endif::add-copy-button-to-config-props[]
-
-
-[.description]
---
-The API key to authenticate with.
-
-
-ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_API_KEY+++[]
-endif::add-copy-button-to-env-var[]
-ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_QDRANT_API_KEY+++`
-endif::add-copy-button-to-env-var[]
---
-|string
-|
-
-a| [[quarkus-qdrant_quarkus-qdrant-use-tls]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-use-tls[`+++quarkus.qdrant.use-tls+++`]##
-ifdef::add-copy-button-to-config-props[]
-config_property_copy_button:+++quarkus.qdrant.use-tls+++[]
-endif::add-copy-button-to-config-props[]
-
-
-[.description]
---
-Whether to use TLS (HTTPS).
-
-
-ifdef::add-copy-button-to-env-var[]
-Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_USE_TLS+++[]
-endif::add-copy-button-to-env-var[]
-ifndef::add-copy-button-to-env-var[]
-Environment variable: `+++QUARKUS_QDRANT_USE_TLS+++`
-endif::add-copy-button-to-env-var[]
---
-|boolean
-|`+++false+++`
-
 a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-vector-size]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-collections-collections-vector-size[`+++quarkus.qdrant.devservices.collections."collections".vector-size+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.qdrant.devservices.collections."collections".vector-size+++[]
@@ -258,6 +174,110 @@ endif::add-copy-button-to-env-var[]
 --
 |string
 |`+++Cosine+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-host]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-host[`+++quarkus.qdrant.host+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.host+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".host+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".host+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+The hostname of the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_HOST+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_HOST+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|`+++localhost+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-port]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-port[`+++quarkus.qdrant.port+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.port+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".port+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".port+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+The REST port of the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_PORT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_PORT+++`
+endif::add-copy-button-to-env-var[]
+--
+|int
+|`+++6333+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-api-key]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-api-key[`+++quarkus.qdrant.api-key+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.api-key+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".api-key+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".api-key+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+The API key to authenticate with.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_API_KEY+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_API_KEY+++`
+endif::add-copy-button-to-env-var[]
+--
+|string
+|
+
+a| [[quarkus-qdrant_quarkus-qdrant-use-tls]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-use-tls[`+++quarkus.qdrant.use-tls+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.use-tls+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".use-tls+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".use-tls+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+Whether to use TLS (HTTPS).
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_USE_TLS+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_USE_TLS+++`
+endif::add-copy-button-to-env-var[]
+--
+|boolean
+|`+++false+++`
 
 |===
 

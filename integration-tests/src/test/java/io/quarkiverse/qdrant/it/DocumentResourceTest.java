@@ -29,7 +29,7 @@ public class DocumentResourceTest {
         assertThat(body)
                 .as("Health check should report UP with Qdrant probe")
                 .contains("\"status\": \"UP\"")
-                .contains("Qdrant REST Client health check");
+                .contains("Qdrant health check");
     }
 
     @Test
@@ -54,6 +54,20 @@ public class DocumentResourceTest {
 
     @Test
     @Order(3)
+    void testNamedClientListCollections() {
+        List<String> collections = List.of(given()
+                .when().get("/named-client/collections")
+                .then()
+                .statusCode(200)
+                .extract().as(String[].class));
+
+        assertThat(collections)
+                .as("Named (secondary) client should see the same collections created by Dev Services")
+                .contains("documents", "products");
+    }
+
+    @Test
+    @Order(4)
     void testListCollections() {
         List<String> collections = List.of(given()
                 .when().get("/documents/collections")
@@ -67,7 +81,7 @@ public class DocumentResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void testIndexAndSearch() {
         String id = given()
                 .contentType("application/json")
@@ -109,7 +123,7 @@ public class DocumentResourceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void testDeleteCollectionAndVerify() {
         given()
                 .when().delete("/documents/collections/documents")

@@ -84,9 +84,57 @@ quarkus.qdrant.api-key=your-api-key
 quarkus.qdrant.use-tls=true
 ----
 
+== Named clients
+
+The extension supports both a *default* client and *named* clients.
+Named clients are necessary when you need to connect to multiple Qdrant instances.
+
+=== Default client
+
+The default client uses bare properties:
+
+[source,properties]
+----
+quarkus.qdrant.host=qdrant.example.com
+quarkus.qdrant.port=6333
+----
+
+Inject it with no qualifier:
+
+[source,java]
+----
+@Inject
+QdrantClient qdrant;
+----
+
+=== Configuring named clients
+
+Named clients use a quoted key in the configuration:
+
+[source,properties]
+----
+quarkus.qdrant."secondary".host=qdrant-secondary.example.com
+quarkus.qdrant."secondary".port=6333
+quarkus.qdrant."secondary".api-key=your-api-key
+quarkus.qdrant."secondary".use-tls=true
+----
+
+=== Injecting named clients
+
+Use the `@QdrantClientName` qualifier:
+
+[source,java]
+----
+@Inject
+@QdrantClientName("secondary")
+QdrantClient secondaryClient;
+----
+
+Each named client is an independent `QdrantClient` instance with its own connection configuration.
+
 == Health check
 
-If you have the `quarkus-smallrye-health` extension, a readiness check is registered automatically.
+If you have the `quarkus-smallrye-health` extension, a readiness check is registered automatically. The health check covers all configured clients (default and named) and reports per-client status.
 
 To disable it:
 

@@ -2,36 +2,34 @@ package io.quarkiverse.qdrant.runtime;
 
 import static io.quarkus.runtime.annotations.ConfigPhase.RUN_TIME;
 
-import java.util.Optional;
+import java.util.Map;
 
+import io.quarkus.runtime.annotations.ConfigDocMapKey;
 import io.quarkus.runtime.annotations.ConfigRoot;
 import io.smallrye.config.ConfigMapping;
-import io.smallrye.config.WithDefault;
+import io.smallrye.config.WithDefaults;
+import io.smallrye.config.WithParentName;
+import io.smallrye.config.WithUnnamedKey;
 
 @ConfigRoot(phase = RUN_TIME)
 @ConfigMapping(prefix = "quarkus.qdrant")
 public interface QdrantConfig {
 
-    /**
-     * The hostname of the Qdrant server.
-     */
-    @WithDefault("localhost")
-    String host();
+    String DEFAULT_CLIENT_NAME = "<default>";
 
     /**
-     * The REST port of the Qdrant server.
+     * Qdrant client configurations.
+     * <p>
+     * The default client uses bare properties (e.g. {@code quarkus.qdrant.host}).
+     * Named clients use a quoted key (e.g. {@code quarkus.qdrant."secondary".host}).
      */
-    @WithDefault("6333")
-    int port();
+    @WithParentName
+    @WithDefaults
+    @WithUnnamedKey(DEFAULT_CLIENT_NAME)
+    @ConfigDocMapKey("qdrant-client-name")
+    Map<String, QdrantClientConfig> clients();
 
-    /**
-     * The API key to authenticate with.
-     */
-    Optional<String> apiKey();
-
-    /**
-     * Whether to use TLS (HTTPS).
-     */
-    @WithDefault("false")
-    boolean useTls();
+    static boolean isDefaultClient(String name) {
+        return DEFAULT_CLIENT_NAME.equals(name);
+    }
 }

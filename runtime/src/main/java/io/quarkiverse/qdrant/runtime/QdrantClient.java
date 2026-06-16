@@ -1,5 +1,6 @@
 package io.quarkiverse.qdrant.runtime;
 
+import java.net.URI;
 import java.util.List;
 
 import io.quarkiverse.qdrant.runtime.model.CollectionDescription;
@@ -8,9 +9,15 @@ import io.quarkiverse.qdrant.runtime.model.CollectionInfo;
 public class QdrantClient {
 
     private final QdrantRestClientApi restClient;
+    private final URI baseUri;
 
-    QdrantClient(QdrantRestClientApi restClient) {
+    QdrantClient(QdrantRestClientApi restClient, URI baseUri) {
         this.restClient = restClient;
+        this.baseUri = baseUri;
+    }
+
+    public URI getBaseUri() {
+        return baseUri;
     }
 
     public CreateCollectionBuilder createCollection(String collection) {
