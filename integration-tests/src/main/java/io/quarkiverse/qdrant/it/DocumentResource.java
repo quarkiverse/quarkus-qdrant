@@ -29,6 +29,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
 import io.quarkiverse.qdrant.runtime.QdrantClient;
+import io.quarkiverse.qdrant.runtime.model.CollectionInfo;
 
 @Path("/documents")
 @ApplicationScoped
@@ -68,6 +69,12 @@ public class DocumentResource {
     @Path("/collections")
     public List<String> listCollections() {
         return qdrant.listCollections();
+    }
+
+    @GET
+    @Path("/collections/{name}")
+    public CollectionInfo getCollectionInfo(@PathParam("name") String name) {
+        return qdrant.getCollectionInfo(name);
     }
 
     @DELETE

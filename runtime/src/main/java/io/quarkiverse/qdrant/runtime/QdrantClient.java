@@ -3,6 +3,7 @@ package io.quarkiverse.qdrant.runtime;
 import java.util.List;
 
 import io.quarkiverse.qdrant.runtime.model.CollectionDescription;
+import io.quarkiverse.qdrant.runtime.model.CollectionInfo;
 
 public class QdrantClient {
 
@@ -32,6 +33,10 @@ public class QdrantClient {
         return restClient.listCollections().getResult().getCollections().stream()
                 .map(CollectionDescription::getName)
                 .toList();
+    }
+
+    public CollectionInfo getCollectionInfo(String collection) {
+        return restClient.getCollectionInfo(collection).getResult();
     }
 
     public void deleteCollection(String collection) {

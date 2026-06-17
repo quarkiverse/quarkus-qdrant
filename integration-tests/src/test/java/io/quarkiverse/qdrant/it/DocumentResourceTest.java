@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import io.quarkiverse.qdrant.runtime.model.CollectionInfo;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
@@ -33,6 +34,26 @@ public class DocumentResourceTest {
 
     @Test
     @Order(2)
+    void testGetCollectionInfo() {
+        CollectionInfo info = given()
+                .when().get("/documents/collections/documents")
+                .then()
+                .statusCode(200)
+                .extract().as(CollectionInfo.class);
+
+        assertThat(info.getDistance())
+                .as("Distance metric should match dev-services config")
+                .isEqualTo("Cosine");
+        assertThat(info.getVectorSize())
+                .as("Vector size should match dev-services config")
+                .isEqualTo(4);
+        assertThat(info.getStatus())
+                .as("Collection status should be green")
+                .isEqualTo("green");
+    }
+
+    @Test
+    @Order(3)
     void testListCollections() {
         List<String> collections = List.of(given()
                 .when().get("/documents/collections")
@@ -46,7 +67,7 @@ public class DocumentResourceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void testIndexAndSearch() {
         String id = given()
                 .contentType("application/json")
@@ -88,7 +109,7 @@ public class DocumentResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void testDeleteCollectionAndVerify() {
         given()
                 .when().delete("/documents/collections/documents")

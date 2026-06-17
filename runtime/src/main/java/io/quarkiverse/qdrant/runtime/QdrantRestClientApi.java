@@ -10,6 +10,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import io.quarkiverse.qdrant.runtime.model.CollectionInfoResponse;
 import io.quarkiverse.qdrant.runtime.model.CreateCollectionRequest;
 import io.quarkiverse.qdrant.runtime.model.DeleteRequest;
 import io.quarkiverse.qdrant.runtime.model.ListCollectionsResponse;
@@ -40,6 +41,10 @@ public interface QdrantRestClientApi {
 
     @GET
     ListCollectionsResponse listCollections();
+
+    @GET
+    @Path("/{collection}")
+    CollectionInfoResponse getCollectionInfo(@PathParam("collection") String collection);
 
     @DELETE
     @Path("/{collection}")
