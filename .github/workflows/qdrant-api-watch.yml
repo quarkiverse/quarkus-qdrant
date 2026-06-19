@@ -1,0 +1,50 @@
+name: Qdrant API Watch
+
+on:
+  schedule:
+    - cron: '17 9 * * 1'
+  workflow_dispatch: {}
+
+jobs:
+  check-api-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check for new Qdrant release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          baseline=$(jq -r '.qdrant_version' .github/qdrant-api-baseline.json)
+          latest=$(gh api repos/qdrant/qdrant/releases/latest --jq '.tag_name')
+
+          echo "Baseline: $baseline"
+          echo "Latest: $latest"
+
+          if [ "$latest" = "$baseline" ]; then
+            echo "No new release."
+            exit 0
+          fi
+
+          existing=$(gh issue list --label "qdrant-api-change" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            echo "Issue #$existing already open, skipping."
+            exit 0
+          fi
+
+          gh issue create \
+            --title "New Qdrant release: ${latest} (current: ${baseline})" \
+            --label "qdrant-api-change" \
+            --body "$(cat <<EOF
+          A new Qdrant release **${latest}** is available. We are currently aligned with **${baseline}**.
+
+          Release notes: https://github.com/qdrant/qdrant/releases/tag/${latest}
+
+          ## Action needed
+
+          - [ ] Review the release notes for API changes
+          - [ ] Update DTOs in \`runtime/src/main/java/.../model/\`
+          - [ ] Update \`.github/qdrant-api-baseline.json\` with the new version
+          - [ ] Bump Dev Services image version in \`QdrantBuildConfig.java\`
+          EOF
+          )"

@@ -68,7 +68,7 @@ Environment variable: `+++QUARKUS_QDRANT_DEVSERVICES_QDRANT_IMAGE_NAME+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`+++docker.io/qdrant/qdrant:v1.16-unprivileged+++`
+|`+++docker.io/qdrant/qdrant:v1.18-unprivileged+++`
 
 a|icon:lock[title=Fixed at build time] [[quarkus-qdrant_quarkus-qdrant-devservices-port]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-devservices-port[`+++quarkus.qdrant.devservices.port+++`]##
 ifdef::add-copy-button-to-config-props[]

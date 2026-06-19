@@ -23,6 +23,10 @@ List<ScoredPoint> results = qdrant.search("docs").vector(queryVec).limit(10).exe
 
 That's it. No gRPC stubs, no channel management, no heavy dependencies.
 
+== Compatibility
+
+This extension is tested against Qdrant **{qdrant-server-version}.x**. It should work with newer versions as well, since the REST client tolerates unknown fields from the API. If you encounter an issue with a newer Qdrant release, please report it.
+
 == Why Quarkus Qdrant?
 
 === REST instead of gRPC
