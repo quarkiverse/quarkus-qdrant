@@ -2,6 +2,9 @@ package io.quarkiverse.qdrant.runtime.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchResponse {
 
     private List<ScoredPoint> result;

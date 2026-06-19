@@ -1,8 +1,11 @@
 package io.quarkiverse.qdrant.runtime.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CollectionInfo {
 
     private String status;
@@ -11,6 +14,7 @@ public class CollectionInfo {
     private Long pointsCount;
 
     @JsonProperty("indexed_vectors_count")
+    @JsonAlias("indexedVectorsCount")
     private Long indexedVectorsCount;
 
     private CollectionConfig config;

@@ -2,6 +2,9 @@ package io.quarkiverse.qdrant.runtime.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ListCollectionsResponse {
 
     private Result result;
@@ -17,6 +20,7 @@ public class ListCollectionsResponse {
         this.result = result;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Result {
 
         private List<CollectionDescription> collections;
