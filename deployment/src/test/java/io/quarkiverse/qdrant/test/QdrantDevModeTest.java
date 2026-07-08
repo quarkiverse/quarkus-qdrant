@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkus.test.QuarkusDevModeTest;
 
+@Order(99)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class QdrantDevModeTest {
 

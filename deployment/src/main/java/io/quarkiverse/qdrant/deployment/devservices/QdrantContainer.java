@@ -73,7 +73,7 @@ public class QdrantContainer extends org.testcontainers.qdrant.QdrantContainer
                 client.close();
             }
         } finally {
-            vertx.close();
+            vertx.close().toCompletionStage().toCompletableFuture().join();
         }
     }
 

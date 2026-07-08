@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -29,6 +30,7 @@ import io.quarkus.test.QuarkusUnitTest;
  * - Runtime error scenarios (wrong dimensions, duplicates, missing criteria)
  * - Recovery after exceptions (client state not corrupted)
  */
+@Order(4)
 public class ErrorHandlingTest {
 
     @RegisterExtension
