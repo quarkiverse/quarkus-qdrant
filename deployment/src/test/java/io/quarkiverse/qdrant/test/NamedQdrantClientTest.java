@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -16,6 +17,7 @@ import io.quarkiverse.qdrant.runtime.QdrantClient;
 import io.quarkiverse.qdrant.runtime.QdrantClientName;
 import io.quarkus.test.QuarkusUnitTest;
 
+@Order(2)
 public class NamedQdrantClientTest {
 
     @RegisterExtension
