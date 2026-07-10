@@ -42,7 +42,9 @@ public class QdrantClientRecorder {
                 RestClientBuilder builder = RestClientBuilder.newBuilder()
                         .baseUri(baseUri);
 
-                clientConfig.apiKey().ifPresent(key -> builder.header("api-key", key));
+                if (clientConfig.apiKey().isPresent()) {
+                    builder.header("api-key", clientConfig.apiKey().get());
+                }
 
                 QdrantRestClientApi restClient = builder.build(QdrantRestClientApi.class);
                 restClients.put(clientName, restClient);
@@ -52,7 +54,21 @@ public class QdrantClientRecorder {
     }
 
     public void cleanup(ShutdownContext context) {
-        context.addShutdownTask(() -> {
+        context.addShutdownTask(new ShutdownTask(restClients));
+    }
+
+    private static final class ShutdownTask implements Runnable {
+
+        private static final Logger LOG = Logger.getLogger(ShutdownTask.class);
+
+        private final Map<String, QdrantRestClientApi> restClients;
+
+        ShutdownTask(Map<String, QdrantRestClientApi> restClients) {
+            this.restClients = restClients;
+        }
+
+        @Override
+        public void run() {
             for (QdrantRestClientApi restClient : restClients.values()) {
                 if (restClient instanceof AutoCloseable closeable) {
                     try {
@@ -63,6 +79,6 @@ public class QdrantClientRecorder {
                 }
             }
             restClients.clear();
-        });
+        }
     }
 }
