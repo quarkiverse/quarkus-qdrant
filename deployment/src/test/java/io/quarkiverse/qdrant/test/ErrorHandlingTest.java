@@ -36,7 +36,7 @@ public class ErrorHandlingTest {
     @RegisterExtension
     static final QuarkusUnitTest unitTest = new QuarkusUnitTest()
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class))
-            .overrideConfigKey("quarkus.qdrant.devservices.collections.test_col.size", "4")
+            .overrideConfigKey("quarkus.qdrant.devservices.collections.test_col.vector-size", "4")
             .overrideConfigKey("quarkus.qdrant.devservices.collections.test_col.distance", "Cosine");
 
     @Inject
