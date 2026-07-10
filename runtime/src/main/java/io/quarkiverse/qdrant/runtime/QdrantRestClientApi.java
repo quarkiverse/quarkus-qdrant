@@ -42,7 +42,7 @@ public interface QdrantRestClientApi {
     private static String extractErrorMessage(int statusCode, String body) {
         if (body != null && !body.isBlank()) {
             try {
-                JsonNode root = new ObjectMapper().readTree(body);
+                JsonNode root = ObjectMapperHolder.MAPPER.readTree(body);
                 JsonNode status = root.get("status");
                 if (status != null && status.isObject()) {
                     JsonNode error = status.get("error");
@@ -82,4 +82,8 @@ public interface QdrantRestClientApi {
     @DELETE
     @Path("/{collection}")
     void deleteCollection(@PathParam("collection") String collection);
+
+    class ObjectMapperHolder {
+        static final ObjectMapper MAPPER = new ObjectMapper();
+    }
 }
