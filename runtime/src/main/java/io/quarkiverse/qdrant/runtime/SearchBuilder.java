@@ -54,12 +54,12 @@ public class SearchBuilder {
 
     public List<ScoredPoint> execute() {
         SearchRequest request = new SearchRequest();
-        request.setVector(vector);
+        request.setQuery(vector);
         request.setLimit(limit);
         request.setWithPayload(withPayload);
         request.setWithVector(withVector);
         request.setScoreThreshold(scoreThreshold);
         request.setFilter(filter);
-        return client.search(collection, request).getResult();
+        return client.search(collection, request).getResult().getPoints();
     }
 }

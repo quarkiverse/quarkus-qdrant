@@ -27,6 +27,8 @@ public class CreateCollectionRequest {
     @JsonProperty("on_disk_payload")
     private Boolean onDiskPayload;
 
+    private Object payload;
+
     @JsonProperty("hnsw_config")
     private Object hnswConfig;
 
@@ -100,6 +102,14 @@ public class CreateCollectionRequest {
 
     public void setOnDiskPayload(Boolean onDiskPayload) {
         this.onDiskPayload = onDiskPayload;
+    }
+
+    public Object getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
 
     public Object getHnswConfig() {

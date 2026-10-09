@@ -69,7 +69,7 @@ public interface QdrantRestClientApi {
     void delete(@PathParam("collection") String collection, DeleteRequest request);
 
     @POST
-    @Path("/{collection}/points/search")
+    @Path("/{collection}/points/query")
     SearchResponse search(@PathParam("collection") String collection, SearchRequest request);
 
     @GET

@@ -7,16 +7,33 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchResponse {
 
-    private List<ScoredPoint> result;
+    private QueryResult result;
 
     public SearchResponse() {
     }
 
-    public List<ScoredPoint> getResult() {
+    public QueryResult getResult() {
         return result;
     }
 
-    public void setResult(List<ScoredPoint> result) {
+    public void setResult(QueryResult result) {
         this.result = result;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class QueryResult {
+
+        private List<ScoredPoint> points;
+
+        public QueryResult() {
+        }
+
+        public List<ScoredPoint> getPoints() {
+            return points;
+        }
+
+        public void setPoints(List<ScoredPoint> points) {
+            this.points = points;
+        }
     }
 }

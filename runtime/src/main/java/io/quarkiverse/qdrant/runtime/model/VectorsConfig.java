@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class VectorsConfig {
     private int size;
     private String distance;
+    private String memory;
 
     public VectorsConfig() {
     }
@@ -31,4 +32,11 @@ public class VectorsConfig {
         this.distance = distance;
     }
 
+    public String getMemory() {
+        return memory;
+    }
+
+    public void setMemory(String memory) {
+        this.memory = memory;
+    }
 }

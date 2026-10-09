@@ -19,6 +19,7 @@ import io.quarkiverse.qdrant.runtime.QdrantApiException;
 import io.quarkiverse.qdrant.runtime.QdrantClient;
 import io.quarkiverse.qdrant.runtime.QdrantException;
 import io.quarkiverse.qdrant.runtime.model.PointStruct;
+import io.quarkiverse.qdrant.runtime.model.ScoredPoint;
 import io.quarkus.test.QuarkusUnitTest;
 
 /**
@@ -111,9 +112,9 @@ public class ErrorHandlingTest {
     // --- Non-HTTP errors (QdrantException, not QdrantApiException) ---
 
     @Test
-    void searchWithNullVectorThrowsQdrantException() {
-        assertThatThrownBy(() -> client.search("test_col").execute())
-                .isInstanceOf(QdrantException.class);
+    void searchWithoutQueryReturnsEmptyResults() {
+        List<ScoredPoint> results = client.search("test_col").execute();
+        assertThat(results).isNotNull().isEmpty();
     }
 
     @Test

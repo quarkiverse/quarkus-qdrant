@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchRequest {
 
-    private float[] vector;
+    private float[] query;
     private int limit;
     private Integer offset;
     private Map<String, Object> filter;
@@ -31,12 +31,12 @@ public class SearchRequest {
     public SearchRequest() {
     }
 
-    public float[] getVector() {
-        return vector;
+    public float[] getQuery() {
+        return query;
     }
 
-    public void setVector(float[] vector) {
-        this.vector = vector;
+    public void setQuery(float[] query) {
+        this.query = query;
     }
 
     public int getLimit() {
