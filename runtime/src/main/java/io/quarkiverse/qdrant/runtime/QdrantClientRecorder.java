@@ -2,15 +2,21 @@ package io.quarkiverse.qdrant.runtime;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import jakarta.ws.rs.client.ClientRequestFilter;
+
 import org.jboss.logging.Logger;
 
+import io.quarkus.arc.Arc;
+import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder;
 import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.ShutdownContext;
 import io.quarkus.runtime.annotations.Recorder;
+import io.quarkus.tls.TlsConfiguration;
+import io.quarkus.tls.TlsConfigurationRegistry;
 
 @Recorder
 public class QdrantClientRecorder {
@@ -39,11 +45,16 @@ public class QdrantClientRecorder {
                 String scheme = clientConfig.useTls() ? "https" : "http";
                 URI baseUri = URI.create(scheme + "://" + clientConfig.host() + ":" + clientConfig.port());
 
-                RestClientBuilder builder = RestClientBuilder.newBuilder()
+                QuarkusRestClientBuilder builder = QuarkusRestClientBuilder.newBuilder()
                         .baseUri(baseUri);
 
                 if (clientConfig.apiKey().isPresent()) {
-                    builder.header("api-key", clientConfig.apiKey().get());
+                    String apiKey = clientConfig.apiKey().get();
+                    builder.register((ClientRequestFilter) ctx -> ctx.getHeaders().putSingle("api-key", apiKey));
+                }
+
+                if (clientConfig.useTls()) {
+                    configureTls(builder, clientConfig);
                 }
 
                 QdrantRestClientApi restClient = builder.build(QdrantRestClientApi.class);
@@ -51,6 +62,32 @@ public class QdrantClientRecorder {
                 return new QdrantClient(restClient, baseUri);
             }
         };
+    }
+
+    private void configureTls(QuarkusRestClientBuilder builder, QdrantClientConfig clientConfig) {
+        TlsConfigurationRegistry registry = Arc.container().select(TlsConfigurationRegistry.class).orNull();
+        if (registry == null) {
+            if (clientConfig.tlsConfigurationName().isPresent()) {
+                throw new IllegalStateException(
+                        "TLS configuration '" + clientConfig.tlsConfigurationName().get()
+                                + "' was specified, but no TLS configuration registry is available.");
+            }
+            return;
+        }
+
+        Optional<TlsConfiguration> tlsConfig;
+        if (clientConfig.tlsConfigurationName().isPresent()) {
+            tlsConfig = TlsConfiguration.from(registry, clientConfig.tlsConfigurationName());
+            if (tlsConfig.isEmpty()) {
+                throw new IllegalStateException(
+                        "TLS configuration '" + clientConfig.tlsConfigurationName().get()
+                                + "' was specified, but it does not exist.");
+            }
+        } else {
+            tlsConfig = registry.getDefault();
+        }
+
+        tlsConfig.ifPresent(builder::tlsConfiguration);
     }
 
     public void cleanup(ShutdownContext context) {

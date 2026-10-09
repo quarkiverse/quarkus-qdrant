@@ -30,4 +30,14 @@ public interface QdrantClientConfig {
      */
     @WithDefault("false")
     boolean useTls();
+
+    /**
+     * The name of the TLS configuration to use.
+     * <p>
+     * If a name is configured, it uses the configuration from {@code quarkus.tls.<name>.*}.
+     * If not set and TLS is enabled, the default TLS configuration is used.
+     *
+     * @see io.quarkus.tls.TlsConfiguration
+     */
+    Optional<String> tlsConfigurationName();
 }

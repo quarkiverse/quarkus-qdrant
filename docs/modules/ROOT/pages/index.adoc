@@ -86,6 +86,15 @@ quarkus.qdrant.host=qdrant.example.com
 quarkus.qdrant.port=6333
 quarkus.qdrant.api-key=your-api-key
 quarkus.qdrant.use-tls=true
+quarkus.qdrant.tls-configuration-name=qdrant
+----
+
+The `tls-configuration-name` points to a named https://quarkus.io/guides/tls-registry-reference[Quarkus TLS configuration] for custom trust stores or keystores. If omitted, the default Quarkus TLS configuration is used when available. For example, to configure a custom trust store:
+
+[source,properties]
+----
+quarkus.tls.qdrant.trust-store.p12.path=/path/to/truststore.p12
+quarkus.tls.qdrant.trust-store.p12.password=changeit
 ----
 
 == Named clients

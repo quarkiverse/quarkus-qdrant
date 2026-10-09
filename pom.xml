@@ -33,6 +33,7 @@
         <quarkus.version>3.33.3.1</quarkus.version>
         <assertj-core.version>3.27.7</assertj-core.version>
         <qdrant.server.version>1.18</qdrant.server.version>
+        <smallrye-certificate-generator.version>0.9.4</smallrye-certificate-generator.version>
         <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
 
