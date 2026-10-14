@@ -27,6 +27,7 @@ import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.ShutdownContextBuildItem;
 import io.quarkus.smallrye.health.deployment.spi.HealthBuildItem;
+import io.quarkus.tls.deployment.spi.TlsRegistryBuildItem;
 
 class QdrantProcessor {
 
@@ -52,8 +53,11 @@ class QdrantProcessor {
             ShutdownContextBuildItem shutdown,
             BeanDiscoveryFinishedBuildItem beans,
             CombinedIndexBuildItem index,
+            TlsRegistryBuildItem tlsRegistryBuildItem,
             List<RequestedQdrantClientBuildItem> requestedClients,
             BuildProducer<SyntheticBeanBuildItem> syntheticBeans) {
+
+        recorder.setTlsRegistry(tlsRegistryBuildItem.registry());
 
         Set<String> clientNames = new LinkedHashSet<>();
 

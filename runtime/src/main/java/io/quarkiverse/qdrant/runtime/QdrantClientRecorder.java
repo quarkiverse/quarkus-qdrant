@@ -2,15 +2,21 @@ package io.quarkiverse.qdrant.runtime;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
+
 import org.jboss.logging.Logger;
 
+import io.quarkus.rest.client.reactive.QuarkusRestClientBuilder;
 import io.quarkus.runtime.RuntimeValue;
 import io.quarkus.runtime.ShutdownContext;
 import io.quarkus.runtime.annotations.Recorder;
+import io.quarkus.tls.TlsConfiguration;
+import io.quarkus.tls.TlsConfigurationRegistry;
 
 @Recorder
 public class QdrantClientRecorder {
@@ -21,8 +27,14 @@ public class QdrantClientRecorder {
 
     private final Map<String, QdrantRestClientApi> restClients = new ConcurrentHashMap<>();
 
+    private Supplier<TlsConfigurationRegistry> tlsRegistrySupplier;
+
     public QdrantClientRecorder(RuntimeValue<QdrantConfig> config) {
         this.config = config;
+    }
+
+    public void setTlsRegistry(Supplier<TlsConfigurationRegistry> supplier) {
+        this.tlsRegistrySupplier = supplier;
     }
 
     public Supplier<QdrantClient> qdrantClientSupplier(String clientName) {
@@ -39,11 +51,19 @@ public class QdrantClientRecorder {
                 String scheme = clientConfig.useTls() ? "https" : "http";
                 URI baseUri = URI.create(scheme + "://" + clientConfig.host() + ":" + clientConfig.port());
 
-                RestClientBuilder builder = RestClientBuilder.newBuilder()
+                QuarkusRestClientBuilder builder = QuarkusRestClientBuilder.newBuilder()
                         .baseUri(baseUri);
 
                 if (clientConfig.apiKey().isPresent()) {
-                    builder.header("api-key", clientConfig.apiKey().get());
+                    builder.register(new ApiKeyRequestFilter(clientConfig.apiKey().get()));
+                }
+
+                if (clientConfig.useTls()) {
+                    configureTls(builder, clientConfig);
+                } else if (clientConfig.tlsConfigurationName().isPresent()) {
+                    LOG.warnf("Qdrant client '%s' has 'tls-configuration-name' set to '%s'"
+                            + " but 'use-tls' is false — TLS configuration will be ignored",
+                            clientName, clientConfig.tlsConfigurationName().get());
                 }
 
                 QdrantRestClientApi restClient = builder.build(QdrantRestClientApi.class);
@@ -53,8 +73,40 @@ public class QdrantClientRecorder {
         };
     }
 
+    private void configureTls(QuarkusRestClientBuilder builder, QdrantClientConfig clientConfig) {
+        TlsConfigurationRegistry registry = tlsRegistrySupplier.get();
+
+        Optional<TlsConfiguration> tlsConfig;
+        if (clientConfig.tlsConfigurationName().isPresent()) {
+            tlsConfig = TlsConfiguration.from(registry, clientConfig.tlsConfigurationName());
+            if (tlsConfig.isEmpty()) {
+                throw new IllegalStateException(
+                        "TLS configuration '" + clientConfig.tlsConfigurationName().get()
+                                + "' was specified, but it does not exist.");
+            }
+        } else {
+            tlsConfig = registry.getDefault();
+        }
+
+        tlsConfig.ifPresent(builder::tlsConfiguration);
+    }
+
     public void cleanup(ShutdownContext context) {
         context.addShutdownTask(new ShutdownTask(restClients));
+    }
+
+    private static final class ApiKeyRequestFilter implements ClientRequestFilter {
+
+        private final String apiKey;
+
+        ApiKeyRequestFilter(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        @Override
+        public void filter(ClientRequestContext ctx) {
+            ctx.getHeaders().putSingle("api-key", apiKey);
+        }
     }
 
     private static final class ShutdownTask implements Runnable {

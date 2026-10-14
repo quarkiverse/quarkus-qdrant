@@ -33,6 +33,8 @@
         <quarkus.version>3.33.3.1</quarkus.version>
         <assertj-core.version>3.27.7</assertj-core.version>
         <qdrant.server.version>1.19</qdrant.server.version>
+        <qdrant.container.image>docker.io/qdrant/qdrant:v${qdrant.server.version}-unprivileged</qdrant.container.image>
+        <smallrye-certificate-generator.version>0.9.4</smallrye-certificate-generator.version>
         <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
 
