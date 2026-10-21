@@ -23,7 +23,7 @@ import io.quarkiverse.qdrant.runtime.model.SearchResponse;
 import io.quarkiverse.qdrant.runtime.model.UpsertRequest;
 import io.quarkus.rest.client.reactive.ClientExceptionMapper;
 
-@Path("/collections")
+@Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface QdrantRestClientApi {
@@ -57,31 +57,37 @@ public interface QdrantRestClientApi {
     }
 
     @PUT
-    @Path("/{collection}")
+    @Path("/collections/{collection}")
     void createCollection(@PathParam("collection") String collection, CreateCollectionRequest request);
 
     @PUT
-    @Path("/{collection}/points")
+    @Path("/collections/{collection}/points")
     void upsert(@PathParam("collection") String collection, UpsertRequest request);
 
     @POST
-    @Path("/{collection}/points/delete")
+    @Path("/collections/{collection}/points/delete")
     void delete(@PathParam("collection") String collection, DeleteRequest request);
 
     @POST
-    @Path("/{collection}/points/query")
+    @Path("/collections/{collection}/points/query")
     SearchResponse search(@PathParam("collection") String collection, SearchRequest request);
 
     @GET
+    @Path("/collections")
     ListCollectionsResponse listCollections();
 
     @GET
-    @Path("/{collection}")
+    @Path("/collections/{collection}")
     CollectionInfoResponse getCollectionInfo(@PathParam("collection") String collection);
 
     @DELETE
-    @Path("/{collection}")
+    @Path("/collections/{collection}")
     void deleteCollection(@PathParam("collection") String collection);
+
+    @GET
+    @Path("/healthz")
+    @Produces(MediaType.TEXT_PLAIN)
+    String healthz();
 
     class ObjectMapperHolder {
         static final ObjectMapper MAPPER = new ObjectMapper();

@@ -18,6 +18,11 @@ public interface QdrantConfig {
     String DEFAULT_CLIENT_NAME = "<default>";
 
     /**
+     * The name the default client is reported under, for example as a health check data key.
+     */
+    String DEFAULT_CLIENT_REPORTED_NAME = "default";
+
+    /**
      * Qdrant client configurations.
      * <p>
      * The default client uses bare properties (e.g. {@code quarkus.qdrant.host}).

@@ -227,6 +227,58 @@ endif::add-copy-button-to-env-var[]
 |int
 |`+++6333+++`
 
+a| [[quarkus-qdrant_quarkus-qdrant-connect-timeout]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-connect-timeout[`+++quarkus.qdrant.connect-timeout+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.connect-timeout+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".connect-timeout+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".connect-timeout+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+The timeout for establishing a connection to the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_CONNECT_TIMEOUT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_CONNECT_TIMEOUT+++`
+endif::add-copy-button-to-env-var[]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-quarkus-qdrant_quarkus-qdrant[icon:question-circle[title=More information about the Duration format]]
+|`+++5S+++`
+
+a| [[quarkus-qdrant_quarkus-qdrant-read-timeout]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-read-timeout[`+++quarkus.qdrant.read-timeout+++`]##
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant.read-timeout+++[]
+endif::add-copy-button-to-config-props[]
+
+
+`+++quarkus.qdrant."qdrant-client-name".read-timeout+++`
+ifdef::add-copy-button-to-config-props[]
+config_property_copy_button:+++quarkus.qdrant."qdrant-client-name".read-timeout+++[]
+endif::add-copy-button-to-config-props[]
+
+[.description]
+--
+The timeout for reading a response from the Qdrant server.
+
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++QUARKUS_QDRANT_READ_TIMEOUT+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++QUARKUS_QDRANT_READ_TIMEOUT+++`
+endif::add-copy-button-to-env-var[]
+--
+|link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html[Duration] link:#duration-note-anchor-quarkus-qdrant_quarkus-qdrant[icon:question-circle[title=More information about the Duration format]]
+|`+++10S+++`
+
 a| [[quarkus-qdrant_quarkus-qdrant-api-key]] [.property-path]##link:#quarkus-qdrant_quarkus-qdrant-api-key[`+++quarkus.qdrant.api-key+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++quarkus.qdrant.api-key+++[]
@@ -309,3 +361,22 @@ endif::add-copy-button-to-env-var[]
 
 |===
 
+ifndef::no-duration-note[]
+[NOTE]
+[id=duration-note-anchor-quarkus-qdrant_quarkus-qdrant]
+.About the Duration format
+====
+To write duration values, use the standard `java.time.Duration` format.
+See the link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#parse(java.lang.CharSequence)[Duration#parse() Java API documentation] for more information.
+
+You can also use a simplified format, starting with a number:
+
+* If the value is only a number, it represents time in seconds.
+* If the value is a number followed by `ms`, it represents time in milliseconds.
+
+In other cases, the simplified format is translated to the `java.time.Duration` format for parsing:
+
+* If the value is a number followed by `h`, `m`, or `s`, it is prefixed with `PT`.
+* If the value is a number followed by `d`, it is prefixed with `P`.
+====
+endif::no-duration-note[]

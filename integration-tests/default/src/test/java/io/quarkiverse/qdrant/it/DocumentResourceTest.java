@@ -2,6 +2,8 @@ package io.quarkiverse.qdrant.it;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
@@ -20,16 +22,16 @@ public class DocumentResourceTest {
     @Test
     @Order(1)
     void testHealthCheck() {
-        String body = given()
+        given()
                 .when().get("/q/health/ready")
                 .then()
                 .statusCode(200)
-                .extract().asString();
-
-        assertThat(body)
-                .as("Health check should report UP with Qdrant probe")
-                .contains("\"status\": \"UP\"")
-                .contains("Qdrant health check");
+                .body("checks.name", hasItem("Qdrant health check"))
+                .body("status", is("UP"))
+                .body("checks.find { it.name == 'Qdrant health check' }.status", is("UP"))
+                .body("checks.find { it.name == 'Qdrant health check' }.data.'default'", is("UP"))
+                .body("checks.find { it.name == 'Qdrant health check' }.data.admin", is("UP"))
+                .body("checks.find { it.name == 'Qdrant health check' }.data.size()", is(2));
     }
 
     @Test

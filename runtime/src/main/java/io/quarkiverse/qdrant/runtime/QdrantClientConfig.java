@@ -1,5 +1,6 @@
 package io.quarkiverse.qdrant.runtime;
 
+import java.time.Duration;
 import java.util.Optional;
 
 import io.quarkus.runtime.annotations.ConfigGroup;
@@ -19,6 +20,18 @@ public interface QdrantClientConfig {
      */
     @WithDefault("6333")
     int port();
+
+    /**
+     * The timeout for establishing a connection to the Qdrant server.
+     */
+    @WithDefault("5s")
+    Duration connectTimeout();
+
+    /**
+     * The timeout for reading a response from the Qdrant server.
+     */
+    @WithDefault("10s")
+    Duration readTimeout();
 
     /**
      * The API key to authenticate with.

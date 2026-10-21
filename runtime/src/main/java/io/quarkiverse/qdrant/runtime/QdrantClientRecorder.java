@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import jakarta.ws.rs.client.ClientRequestContext;
@@ -52,7 +53,9 @@ public class QdrantClientRecorder {
                 URI baseUri = URI.create(scheme + "://" + clientConfig.host() + ":" + clientConfig.port());
 
                 QuarkusRestClientBuilder builder = QuarkusRestClientBuilder.newBuilder()
-                        .baseUri(baseUri);
+                        .baseUri(baseUri)
+                        .connectTimeout(clientConfig.connectTimeout().toMillis(), TimeUnit.MILLISECONDS)
+                        .readTimeout(clientConfig.readTimeout().toMillis(), TimeUnit.MILLISECONDS);
 
                 if (clientConfig.apiKey().isPresent()) {
                     builder.register(new ApiKeyRequestFilter(clientConfig.apiKey().get()));
@@ -88,7 +91,9 @@ public class QdrantClientRecorder {
             tlsConfig = registry.getDefault();
         }
 
-        tlsConfig.ifPresent(builder::tlsConfiguration);
+        if (tlsConfig.isPresent()) {
+            builder.tlsConfiguration(tlsConfig.get());
+        }
     }
 
     public void cleanup(ShutdownContext context) {

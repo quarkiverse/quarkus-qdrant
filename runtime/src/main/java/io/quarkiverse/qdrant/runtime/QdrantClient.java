@@ -20,6 +20,10 @@ public class QdrantClient {
         return baseUri;
     }
 
+    QdrantRestClientApi restClient() {
+        return restClient;
+    }
+
     public CreateCollectionBuilder createCollection(String collection) {
         return new CreateCollectionBuilder(restClient, collection);
     }

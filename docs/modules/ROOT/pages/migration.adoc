@@ -1,0 +1,26 @@
+= Migration Guide
+
+include::./includes/attributes.adoc[]
+
+== 0.3.0
+
+=== Removed classes
+
+Two classes that were public in 0.2.0 have been removed. Both were internal plumbing for the readiness check.
+
+[cols="1,1"]
+|===
+|Removed |What to do
+
+|`io.quarkiverse.qdrant.runtime.QdrantHealthApi`
+|Drop the reference. The readiness check now calls `healthz` on the REST client of the `QdrantClient` it probes, so this interface no longer exists.
+
+|`io.quarkiverse.qdrant.runtime.health.QdrantHealthCheck`
+|Drop the reference. The check moved to `io.quarkiverse.qdrant.runtime` and is package-private, so it is no longer meant to be referenced.
+|===
+
+The readiness check is still registered automatically and still honours `quarkus.qdrant.health.enabled`. No configuration changes are needed.
+
+=== QdrantRestClientApi paths
+
+The class-level `@Path` of `QdrantRestClientApi` moved from `/collections` to `/`, and every method path is prefixed accordingly. The URLs the client calls are unchanged, so this affects you only if you implemented the interface as a JAX-RS server resource.

@@ -147,7 +147,27 @@ Each named client is an independent `QdrantClient` instance with its own connect
 
 == Health check
 
-If you have the `quarkus-smallrye-health` extension, a readiness check is registered automatically. The health check covers all configured clients (default and named) and reports per-client status.
+If you have the `quarkus-smallrye-health` extension, a readiness check is registered automatically. The health check covers every `QdrantClient` your application uses (default and named) and reports per-client status. Each client is probed with the same TLS configuration and API key it uses itself.
+
+A readiness response looks like this:
+
+[source,json]
+----
+{
+  "status": "UP",
+  "checks": [
+    {
+      "name": "Qdrant health check",
+      "status": "UP",
+      "data": {
+        "default": "UP"
+      }
+    }
+  ]
+}
+----
+
+Named clients appear as extra keys in `data`, under the name you configured.
 
 To disable it:
 
