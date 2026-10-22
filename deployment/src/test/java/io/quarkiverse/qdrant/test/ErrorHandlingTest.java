@@ -20,7 +20,7 @@ import io.quarkiverse.qdrant.runtime.QdrantClient;
 import io.quarkiverse.qdrant.runtime.QdrantException;
 import io.quarkiverse.qdrant.runtime.model.PointStruct;
 import io.quarkiverse.qdrant.runtime.model.ScoredPoint;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 
 /**
  * Tests for QdrantException error handling.
@@ -35,7 +35,7 @@ import io.quarkus.test.QuarkusUnitTest;
 public class ErrorHandlingTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest unitTest = new QuarkusUnitTest()
+    static final QuarkusExtensionTest unitTest = new QuarkusExtensionTest()
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class))
             .overrideConfigKey("quarkus.qdrant.devservices.collections.test_col.vector-size", "4")
             .overrideConfigKey("quarkus.qdrant.devservices.collections.test_col.distance", "Cosine");

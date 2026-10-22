@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkiverse.qdrant.runtime.QdrantClient;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 
 /**
  * The deployment module has no smallrye-health on its classpath, so this test covers an application using
@@ -28,7 +28,7 @@ import io.quarkus.test.QuarkusUnitTest;
 public class HealthCheckWithoutHealthExtensionTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest unitTest = new QuarkusUnitTest()
+    static final QuarkusExtensionTest unitTest = new QuarkusExtensionTest()
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class))
             .overrideConfigKey("quarkus.qdrant.devservices.enabled", "false")
             .setLogRecordPredicate(HealthCheckWithoutHealthExtensionTest::isBeanDiscoveryWarning)
