@@ -15,13 +15,13 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import io.quarkiverse.qdrant.runtime.QdrantClient;
 import io.quarkiverse.qdrant.runtime.QdrantClientName;
-import io.quarkus.test.QuarkusUnitTest;
+import io.quarkus.test.QuarkusExtensionTest;
 
 @Order(2)
 public class NamedQdrantClientTest {
 
     @RegisterExtension
-    static final QuarkusUnitTest unitTest = new QuarkusUnitTest()
+    static final QuarkusExtensionTest unitTest = new QuarkusExtensionTest()
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class)
                     .addClass(NamedClientConsumer.class))
             .overrideConfigKey("quarkus.qdrant.\"secondary\".host", "qdrant-secondary")

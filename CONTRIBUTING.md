@@ -45,7 +45,7 @@ When a new Qdrant release lands, the [watch workflow](.github/workflows/qdrant-a
 
 ## Prerequisites
 
-- Java 17+
+- Java 21+
 - Apache Maven
 - Docker (required for integration tests and Dev Services)
 

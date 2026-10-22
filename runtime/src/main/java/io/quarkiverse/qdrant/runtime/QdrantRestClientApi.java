@@ -11,9 +11,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.quarkiverse.qdrant.runtime.model.CollectionInfoResponse;
 import io.quarkiverse.qdrant.runtime.model.CreateCollectionRequest;
 import io.quarkiverse.qdrant.runtime.model.DeleteRequest;
@@ -22,6 +19,9 @@ import io.quarkiverse.qdrant.runtime.model.SearchRequest;
 import io.quarkiverse.qdrant.runtime.model.SearchResponse;
 import io.quarkiverse.qdrant.runtime.model.UpsertRequest;
 import io.quarkus.rest.client.reactive.ClientExceptionMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -47,7 +47,7 @@ public interface QdrantRestClientApi {
                 if (status != null && status.isObject()) {
                     JsonNode error = status.get("error");
                     if (error != null) {
-                        return "Qdrant error (HTTP " + statusCode + "): " + error.asText();
+                        return "Qdrant error (HTTP " + statusCode + "): " + error.asString();
                     }
                 }
             } catch (Exception ignored) {
@@ -90,6 +90,6 @@ public interface QdrantRestClientApi {
     String healthz();
 
     class ObjectMapperHolder {
-        static final ObjectMapper MAPPER = new ObjectMapper();
+        static final ObjectMapper MAPPER = JsonMapper.builder().build();
     }
 }

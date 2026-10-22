@@ -1,6 +1,5 @@
 package io.quarkiverse.qdrant.deployment.devservices;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -110,10 +109,9 @@ public class QdrantDevServicesProcessor {
                 .orElse(null);
     }
 
-    private static Map<String, Function<QdrantContainer, String>> configProvider() {
-        Map<String, Function<QdrantContainer, String>> config = new HashMap<>();
-        config.put("quarkus.qdrant.host", QdrantContainer::getHost);
-        config.put("quarkus.qdrant.port", c -> String.valueOf(c.getPort()));
-        return config;
+    private static Function<QdrantContainer, Map<String, String>> configProvider() {
+        return container -> Map.of(
+                "quarkus.qdrant.host", container.getHost(),
+                "quarkus.qdrant.port", String.valueOf(container.getPort()));
     }
 }
