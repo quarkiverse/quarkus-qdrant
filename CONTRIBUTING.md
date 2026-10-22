@@ -19,29 +19,29 @@ Include tests in your pull requests. For new features, add or update the referen
 
 ## Backward Compatibility
 
-This extension supports **Qdrant 1.10 and newer**. The `compatibility` job in [build.yml](.github/workflows/build.yml) runs the test suite against the oldest supported version and a couple in between, so the claim stays true instead of being assumed.
+We support the **three most recent Qdrant minor releases**, and nothing older. Today that is 1.18, 1.19 and 1.20. The window moves with every Qdrant release: a new minor joins it, the oldest one leaves it. The `compatibility` job in [build.yml](.github/workflows/build.yml) runs the test suite against each version in the window, so the claim stays true instead of being assumed.
 
-Qdrant's REST API does not reject unknown fields. A field an older server does not understand is dropped silently and the call still returns 200. A change that narrows compatibility therefore fails quietly, giving wrong behaviour on older servers rather than an error. Three rules keep that from happening.
+Keeping the window to three means we do not carry workarounds for servers nobody in the window runs. It also means the matrix has to be moved forward on every Qdrant minor release, not only when something breaks.
 
-**Add fields. Never rename, retype or remove one.** Renaming `SearchRequest.vector` to `query` is what moved the floor from any 1.x up to 1.10, and nobody noticed until later.
+Within the window, compatibility still has to be protected by hand. Qdrant's REST API does not reject unknown fields. A field an older server does not understand is dropped silently and the call still returns 200. A change that narrows compatibility therefore fails quietly, giving wrong behaviour on older servers rather than an error. Three rules keep that from happening.
+
+**Add fields. Never rename, retype or remove one.** Renaming `SearchRequest.vector` to `query` once moved the floor from any 1.x up to 1.10, and nobody noticed until later.
 
 **Use boxed types for new fields.** `Integer`, `Boolean`, `Float`, not `int`, `boolean`, `float`. When an older server omits a field, a primitive reads as `0` or `false`, which looks like real data. A boxed type reads as `null`.
 
 **Keep `@JsonInclude(NON_NULL)` on request DTOs.** It keeps an unset field off the wire entirely, so an older server never sees it. It does not omit primitives, which is the second reason to avoid them.
 
-To try a change against an older server, override the image. It is resolved in two places, Dev Services reads it from build-time config and the TLS tests read a Maven property, so pass both:
+To try a change against the oldest server in the window, override the image. It is resolved in two places, Dev Services reads it from build-time config and the TLS tests read a Maven property, so pass both:
 
 ```shell
-QDRANT_IMAGE=docker.io/qdrant/qdrant:v1.10.1-unprivileged
+QDRANT_IMAGE=docker.io/qdrant/qdrant:v1.18-unprivileged
 
 mvn verify \
   -Dqdrant.container.image=$QDRANT_IMAGE \
   -Dquarkus.qdrant.devservices.qdrant-image-name=$QDRANT_IMAGE
 ```
 
-Floating minor tags such as `v1.10` do not exist for older release lines, so use a full patch tag there.
-
-When a new Qdrant release lands, the [watch workflow](.github/workflows/qdrant-api-watch.yml) opens an issue carrying this checklist.
+When a new Qdrant release lands, the [watch workflow](.github/workflows/qdrant-api-watch.yml) opens an issue carrying this checklist, including moving the matrix forward.
 
 ## Prerequisites
 

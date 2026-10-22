@@ -64,13 +64,15 @@ jobs:
           - [ ] Add any new fields to the DTOs in \`runtime/src/main/java/.../model/\`
           - [ ] Update \`.github/qdrant-api-baseline.json\` with the new version
           - [ ] Bump the Dev Services image in \`QdrantBuildConfig.java\`
-          - [ ] Extend the \`compatibility\` matrix in \`.github/workflows/build.yml\` if the supported range moves
+          - [ ] Move the \`compatibility\` matrix in \`.github/workflows/build.yml\` forward: add the previous default, drop the version that falls out of the window
+          - [ ] Update the supported versions listed in \`docs/modules/ROOT/pages/index.adoc\` and \`CONTRIBUTING.md\`
 
-          ## Keep older servers working
+          ## Keep the supported window working
 
-          The extension supports Qdrant 1.10 and later, and the \`compatibility\` job in
-          \`build.yml\` tests both ends of that range. Qdrant's REST API does not reject
-          unknown fields, so a field an older server does not understand is dropped
+          The extension supports the three most recent Qdrant minor releases and nothing
+          older, so this release pushes one version out of the window. The \`compatibility\`
+          job in \`build.yml\` tests every version still in it. Qdrant's REST API does not
+          reject unknown fields, so a field an older server does not understand is dropped
           silently instead of failing. These rules are what protect those users:
 
           - Add fields. Never rename, retype or remove an existing one. Renaming

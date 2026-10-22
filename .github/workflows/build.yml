@@ -79,11 +79,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Oldest supported server is 1.10, where the universal /points/query
-        # endpoint the client uses became available. Only full patch tags are
-        # published for 1.10, the floating v1.10 tag does not exist.
-        # The current default is covered by the build job above.
-        qdrant-version: [ v1.10.1, v1.18, v1.19 ]
+        # We support the three most recent Qdrant minor releases and nothing
+        # older. On a new minor release, add it here and drop the oldest entry.
+        # The newest one (the project default) is covered by the build job above.
+        qdrant-version: [ v1.18, v1.19 ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

@@ -25,15 +25,22 @@ That's it. No gRPC stubs, no channel management, no heavy dependencies.
 
 == Compatibility
 
-This extension requires **Qdrant 1.10 or newer**. It searches through the universal query
-API (`/points/query`), which Qdrant introduced in 1.10.
+We support the **three most recent Qdrant minor releases**. Today that is 1.18, 1.19 and
+{qdrant-server-version}.
 
-Dev Services starts Qdrant **{qdrant-server-version}** by default. CI runs the whole test
-suite against 1.10.1, 1.18, 1.19 and {qdrant-server-version}, so both ends of the supported
-range are tested rather than assumed.
+That is our plan, not a snapshot. When a new minor lands, it joins the window and the oldest
+one drops out. So the window moves with every Qdrant release, and a version that leaves it
+stops being supported.
 
-Newer releases should work as well, since the response DTOs ignore fields they do not know.
-If you hit a problem with a newer Qdrant release, please report it.
+CI runs the full test suite against every version in the window. Nothing in the window is
+assumed to work. Dev Services starts Qdrant **{qdrant-server-version}** by default.
+
+Older servers are out of scope. We do not test them and we do not fix issues against them.
+1.10 is the hard floor in any case: search goes through the universal query API
+(`/points/query`), which Qdrant added in 1.10.
+
+Newer releases should work, since the response DTOs ignore fields they do not know. If you hit
+a problem with a fresh Qdrant release, please report it.
 
 == Why Quarkus Qdrant?
 
