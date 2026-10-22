@@ -3,15 +3,13 @@ package io.quarkiverse.qdrant.deployment.devui;
 import io.quarkiverse.qdrant.runtime.devui.QdrantDevUIService;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.annotations.BuildSteps;
-import io.quarkus.devui.spi.JsonRPCProvidersBuildItem;
+import io.quarkus.devjsonrpc.spi.JsonRPCProvidersBuildItem;
 import io.quarkus.devui.spi.page.CardPageBuildItem;
 import io.quarkus.devui.spi.page.Page;
 
-@BuildSteps(onlyIf = IsDevelopment.class)
 public class QdrantDevUIProcessor {
 
-    @BuildStep
+    @BuildStep(onlyIf = IsDevelopment.class)
     CardPageBuildItem createCard() {
         CardPageBuildItem card = new CardPageBuildItem();
 

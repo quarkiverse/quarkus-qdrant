@@ -10,8 +10,8 @@ import org.testcontainers.utility.DockerImageName;
 import io.quarkiverse.qdrant.deployment.QdrantBuildConfig;
 import io.quarkus.devservices.common.ConfigureUtil;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.mutiny.core.buffer.Buffer;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
 
