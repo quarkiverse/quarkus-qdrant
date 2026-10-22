@@ -19,13 +19,28 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           baseline=$(jq -r '.qdrant_version' .github/qdrant-api-baseline.json)
-          latest=$(gh api repos/qdrant/qdrant/releases/latest --jq '.tag_name')
+
+          # Tags rather than releases/latest. Qdrant publishes the tag and the
+          # container images before the GitHub release object, so releases/latest
+          # lags: v1.20.0 was installable for over a day while it still reported
+          # v1.19.2. Pre-release tags are filtered out by the version pattern.
+          latest=$(git ls-remote --tags --refs https://github.com/qdrant/qdrant.git \
+            | awk -F/ '{print $NF}' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -V \
+            | tail -1)
 
           echo "Baseline: $baseline"
           echo "Latest: $latest"
 
-          if [ "$latest" = "$baseline" ]; then
-            echo "No new release."
+          if [ -z "$latest" ]; then
+            echo "Could not determine the latest Qdrant tag."
+            exit 1
+          fi
+
+          newest=$(printf '%s\n%s\n' "$baseline" "$latest" | sort -V | tail -1)
+          if [ "$newest" = "$baseline" ]; then
+            echo "Baseline is current."
             exit 0
           fi
 
@@ -46,8 +61,22 @@ jobs:
           ## Action needed
 
           - [ ] Review the release notes for API changes
-          - [ ] Update DTOs in \`runtime/src/main/java/.../model/\`
+          - [ ] Add any new fields to the DTOs in \`runtime/src/main/java/.../model/\`
           - [ ] Update \`.github/qdrant-api-baseline.json\` with the new version
-          - [ ] Bump Dev Services image version in \`QdrantBuildConfig.java\`
+          - [ ] Bump the Dev Services image in \`QdrantBuildConfig.java\`
+          - [ ] Extend the \`compatibility\` matrix in \`.github/workflows/build.yml\` if the supported range moves
+
+          ## Keep older servers working
+
+          The extension supports Qdrant 1.10 and later, and the \`compatibility\` job in
+          \`build.yml\` tests both ends of that range. Qdrant's REST API does not reject
+          unknown fields, so a field an older server does not understand is dropped
+          silently instead of failing. These rules are what protect those users:
+
+          - Add fields. Never rename, retype or remove an existing one. Renaming
+            \`SearchRequest.vector\` to \`query\` is what silently narrowed support before.
+          - Use boxed types (\`Integer\`, \`Boolean\`, \`Float\`) for new fields, never
+            primitives, so a field an older server omits reads as \`null\` and not \`0\`.
+          - Keep \`@JsonInclude(NON_NULL)\` on request DTOs so unset fields stay off the wire.
           EOF
           )"

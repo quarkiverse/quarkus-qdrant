@@ -25,7 +25,15 @@ That's it. No gRPC stubs, no channel management, no heavy dependencies.
 
 == Compatibility
 
-This extension is tested against Qdrant **{qdrant-server-version}.x**. It should work with newer versions as well, since the REST client tolerates unknown fields from the API. If you encounter an issue with a newer Qdrant release, please report it.
+This extension requires **Qdrant 1.10 or newer**. It searches through the universal query
+API (`/points/query`), which Qdrant introduced in 1.10.
+
+Dev Services starts Qdrant **{qdrant-server-version}** by default. CI runs the whole test
+suite against 1.10.1, 1.18, 1.19 and {qdrant-server-version}, so both ends of the supported
+range are tested rather than assumed.
+
+Newer releases should work as well, since the response DTOs ignore fields they do not know.
+If you hit a problem with a newer Qdrant release, please report it.
 
 == Why Quarkus Qdrant?
 

@@ -1,4 +1,4 @@
 :project-version: 0.2.0
-:qdrant-server-version: 1.19
+:qdrant-server-version: 1.20
 
 :examples-dir: ./../examples/

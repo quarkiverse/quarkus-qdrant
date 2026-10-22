@@ -73,3 +73,34 @@ jobs:
 
       - name: Build with Maven (Native)
         run: mvn -B install -Dnative -Dquarkus.native.container-build -Dnative.surefire.skip -pl integration-tests/default,integration-tests/tls
+
+  compatibility:
+    name: Qdrant ${{ matrix.qdrant-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Oldest supported server is 1.10, where the universal /points/query
+        # endpoint the client uses became available. Only full patch tags are
+        # published for 1.10, the floating v1.10 tag does not exist.
+        # The current default is covered by the build job above.
+        qdrant-version: [ v1.10.1, v1.18, v1.19 ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: 'maven'
+
+      # The image is resolved in two places: Dev Services reads it from build-time
+      # config, the TLS tests from the qdrant.container.image Maven property.
+      - name: Build with Maven
+        env:
+          QDRANT_IMAGE: docker.io/qdrant/qdrant:${{ matrix.qdrant-version }}-unprivileged
+        run: |
+          mvn -B clean install \
+            -Dqdrant.container.image="$QDRANT_IMAGE" \
+            -Dquarkus.qdrant.devservices.qdrant-image-name="$QDRANT_IMAGE"

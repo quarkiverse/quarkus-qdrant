@@ -38,7 +38,7 @@ public interface QdrantBuildConfig {
         /**
          * Container image for Qdrant.
          */
-        @WithDefault("docker.io/qdrant/qdrant:v1.19-unprivileged")
+        @WithDefault("docker.io/qdrant/qdrant:v1.20-unprivileged")
         String qdrantImageName();
 
         /**
