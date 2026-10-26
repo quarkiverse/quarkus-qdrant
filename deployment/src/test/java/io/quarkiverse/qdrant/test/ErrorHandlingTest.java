@@ -112,9 +112,77 @@ public class ErrorHandlingTest {
     // --- Non-HTTP errors (QdrantException, not QdrantApiException) ---
 
     @Test
-    void searchWithoutQueryReturnsEmptyResults() {
-        List<ScoredPoint> results = client.search("test_col").execute();
+    void searchWithoutVectorThrowsQdrantException() {
+        assertThatThrownBy(() -> client.search("test_col").execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a non-empty query vector");
+    }
+
+    @Test
+    void searchWithEmptyVectorThrowsQdrantException() {
+        assertThatThrownBy(() -> client.search("test_col").vector(new float[0]).execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a non-empty query vector");
+    }
+
+    @Test
+    void searchWithBlankCollectionThrowsQdrantException() {
+        assertThatThrownBy(() -> client.search(" ").vector(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a collection name");
+    }
+
+    @Test
+    void searchWithVectorSucceeds() {
+        List<ScoredPoint> results = client.search("test_col")
+                .vector(new float[] { 1.0f, 2.0f, 3.0f, 4.0f })
+                .execute();
         assertThat(results).isNotNull().isEmpty();
+    }
+
+    @Test
+    void createCollectionWithoutVectorSizeThrowsQdrantException() {
+        assertThatThrownBy(() -> client.createCollection("no_size_col").execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a vector size greater than zero");
+    }
+
+    @Test
+    void createCollectionWithNegativeVectorSizeThrowsQdrantException() {
+        assertThatThrownBy(() -> client.createCollection("negative_size_col").vectorSize(-1).execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a vector size greater than zero");
+    }
+
+    @Test
+    void createCollectionWithoutDistanceThrowsQdrantException() {
+        assertThatThrownBy(() -> client.createCollection("no_distance_col").vectorSize(4).distance(null).execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a distance metric");
+    }
+
+    @Test
+    void createCollectionWithBlankNameThrowsQdrantException() {
+        assertThatThrownBy(() -> client.createCollection("").vectorSize(4).execute())
+                .isInstanceOf(QdrantException.class)
+                .isNotInstanceOf(QdrantApiException.class)
+                .hasMessageContaining("requires a collection name");
+    }
+
+    @Test
+    void createCollectionWithValidSettingsSucceeds() {
+        client.createCollection("valid_col").vectorSize(4).execute();
+        try {
+            assertThat(client.listCollections()).contains("valid_col");
+        } finally {
+            client.deleteCollection("valid_col");
+        }
     }
 
     @Test
