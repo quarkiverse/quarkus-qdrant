@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.inject.Inject;
 
@@ -137,10 +138,17 @@ public class ErrorHandlingTest {
 
     @Test
     void searchWithVectorSucceeds() {
-        List<ScoredPoint> results = client.search("test_col")
-                .vector(new float[] { 1.0f, 2.0f, 3.0f, 4.0f })
-                .execute();
-        assertThat(results).isNotNull().isEmpty();
+        String id = UUID.randomUUID().toString();
+        client.createCollection("search_test_col").vectorSize(4).distance("Cosine").execute();
+        try {
+            client.upsert("search_test_col")
+                    .point(new PointStruct(id, List.of(1.0f, 2.0f, 3.0f, 4.0f), Map.of()))
+                    .execute();
+            assertThat(client.search("search_test_col").vector(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).execute())
+                    .extracting(ScoredPoint::getId).contains(id);
+        } finally {
+            client.deleteCollection("search_test_col");
+        }
     }
 
     @Test
