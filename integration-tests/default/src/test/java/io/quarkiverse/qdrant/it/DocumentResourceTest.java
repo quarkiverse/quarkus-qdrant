@@ -197,4 +197,15 @@ public class DocumentResourceTest {
                 .then()
                 .statusCode(404);
     }
+
+    @Test
+    @Order(8)
+    void testCreateCollectionWithInvalidVectorSizeReturnsBadRequest() {
+        given()
+                .queryParam("vectorSize", 0)
+                .queryParam("distance", "Cosine")
+                .when().put("/admin/collections/invalid-size-test")
+                .then()
+                .statusCode(400);
+    }
 }
