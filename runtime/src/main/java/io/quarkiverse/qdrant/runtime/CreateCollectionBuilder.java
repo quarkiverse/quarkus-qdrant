@@ -25,6 +25,15 @@ public class CreateCollectionBuilder {
     }
 
     public void execute() {
+        if (collection == null || collection.isBlank()) {
+            throw new QdrantException("Create collection requires a collection name");
+        }
+        if (vectorSize <= 0) {
+            throw new QdrantException("Create collection requires a vector size greater than zero");
+        }
+        if (distance == null || distance.isBlank()) {
+            throw new QdrantException("Create collection requires a distance metric");
+        }
         client.createCollection(collection, new CreateCollectionRequest(vectorSize, distance));
     }
 }

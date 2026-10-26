@@ -53,6 +53,12 @@ public class SearchBuilder {
     }
 
     public List<ScoredPoint> execute() {
+        if (collection == null || collection.isBlank()) {
+            throw new QdrantException("Search requires a collection name");
+        }
+        if (vector == null || vector.length == 0) {
+            throw new QdrantException("Search requires a non-empty query vector");
+        }
         SearchRequest request = new SearchRequest();
         request.setQuery(vector);
         request.setLimit(limit);
