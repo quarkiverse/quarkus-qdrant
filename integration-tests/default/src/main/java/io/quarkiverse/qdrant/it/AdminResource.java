@@ -16,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 import io.quarkiverse.qdrant.runtime.QdrantApiException;
 import io.quarkiverse.qdrant.runtime.QdrantClient;
 import io.quarkiverse.qdrant.runtime.QdrantClientName;
+import io.quarkiverse.qdrant.runtime.QdrantException;
 
 /**
  * Resource used for name client tests.
@@ -41,6 +42,8 @@ public class AdminResource {
             return Response.status(201).build();
         } catch (QdrantApiException e) {
             return Response.status(e.getStatusCode()).entity(e.getMessage()).build();
+        } catch (QdrantException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 
