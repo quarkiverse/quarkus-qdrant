@@ -65,7 +65,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 25
           cache: 'maven'
 
       - name: Build with Maven
@@ -91,7 +91,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
           cache: 'maven'
 
       # The image is resolved in two places: Dev Services reads it from build-time
